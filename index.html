@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tirtha Das — Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            font-family: 'Inter', sans-serif;
+            color: #f0ece4;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        #cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #d4a373;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        #cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #d4a373;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: 0.1s;
+        }
+
+        /* ===== PARTICLE BACKGROUND ===== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 25px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 163, 115, 0.1);
+            flex-wrap: wrap;
+            background: rgba(10, 10, 15, 0.92);
+            backdrop-filter: blur(20px);
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #f0ece4 0%, #d4a373 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .logo h1:hover {
+            transform: scale(1.02);
+        }
+        .logo h1 span {
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        /* ===== TAGLINE - HIDE ON MOBILE ===== */
+        .logo .tagline {
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.5rem;
+            opacity: 0.4;
+            margin-top: 2px;
+            -webkit-text-fill-color: #f0ece4;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: rgba(240, 236, 228, 0.4);
+            text-decoration: none;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: all 0.4s ease;
+            position: relative;
+            padding: 4px 0;
+            cursor: none;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: #d4a373;
+            transition: width 0.4s ease;
+        }
+        nav a:hover {
+            color: #f0ece4;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        nav a.active {
+            color: #d4a373;
+        }
+        nav a.active::after {
+            width: 100%;
+        }
+
+        /* ===== PAGE CONTAINER ===== */
+        .page-container {
+            position: relative;
+            z-index: 10;
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        /* ===== PAGE STYLES ===== */
+        .page {
+            display: none;
+            animation: pageFade 0.6s ease;
+            padding: 20px 20px 0;
+        }
+        .page.active {
+            display: block;
+        }
+
+        @keyframes pageFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== HOME PAGE ===== */
+        .intro {
+            max-width: 100%;
+            padding: 20px 0 10px;
+        }
+        .intro .badge {
+            display: inline-block;
+            background: rgba(212, 163, 115, 0.15);
+            border: 1px solid rgba(212, 163, 115, 0.2);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #d4a373;
+            margin-bottom: 15px;
+        }
+        .intro h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+        .intro h2 em {
+            color: #d4a373;
+            font-style: italic;
+            position: relative;
+        }
+        .intro h2 em::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(212, 163, 115, 0.2);
+            border-radius: 2px;
+        }
+        .intro p {
+            margin-top: 12px;
+            font-weight: 300;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            opacity: 0.6;
+            max-width: 100%;
+        }
+
+        /* ===== PORTFOLIO GRID ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            padding: 15px 0 20px;
+        }
+
+        .project-card {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: none;
+            aspect-ratio: 4 / 3;
+            transform-style: preserve-3d;
+            perspective: 800px;
+        }
+
+        .project-card.wide {
+            grid-column: span 1;
+            aspect-ratio: 4 / 3;
+        }
+
+        .project-card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .brush-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                        rgba(212, 163, 115, 0.2) 0%, 
+                        transparent 70%);
+            mix-blend-mode: overlay;
+        }
+
+        .project-card:hover .brush-overlay {
+            opacity: 1;
+        }
+        .project-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 25px 18px 18px;
+            background: linear-gradient(0deg, rgba(10,10,15,0.92) 0%, transparent 100%);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .project-card:hover .card-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .card-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #f0ece4;
+        }
+        .card-content .category {
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #d4a373;
+            font-weight: 400;
+        }
+        .card-content .view-hint {
+            margin-top: 6px;
+            display: inline-block;
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(240, 236, 228, 0.4);
+            border-bottom: 1px solid rgba(212, 163, 115, 0.2);
+            padding-bottom: 3px;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover .view-hint {
+            color: #d4a373;
+            border-bottom-color: #d4a373;
+        }
+
+        .glow-ring {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            pointer-events: none;
+            transition: all 0.6s ease;
+        }
+        .project-card:hover .glow-ring {
+            border-color: rgba(212, 163, 115, 0.3);
+            box-shadow: 0 0 60px rgba(212, 163, 115, 0.06);
+        }
+
+        /* ===== ABOUT PAGE ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .about-image {
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        .about-text h2 span {
+            color: #d4a373;
+        }
+        .about-text p {
+            font-weight: 300;
+            line-height: 1.8;
+            opacity: 0.6;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .about-text .highlight {
+            color: #d4a373;
+            opacity: 0.9;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .skills span {
+            background: rgba(212, 163, 115, 0.1);
+            border: 1px solid rgba(212, 163, 115, 0.15);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            color: rgba(240, 236, 228, 0.7);
+        }
+
+        /* ===== SERVICES PAGE ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px 25px;
+            transition: all 0.4s ease;
+        }
+        .service-card:hover {
+            border-color: rgba(212, 163, 115, 0.2);
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .service-card .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .service-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        .service-card p {
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.5;
+            font-size: 0.85rem;
+        }
+
+        /* ===== CONTACT PAGE ===== */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .contact-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        .contact-info h2 span {
+            color: #d4a373;
+        }
+        .contact-info p {
+            font-weight: 300;
+            line-height: 1.8;
+            opacity: 0.5;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.3s ease;
+        }
+        .contact-item:hover {
+            border-color: rgba(212, 163, 115, 0.15);
+            background: rgba(255,255,255,0.04);
+        }
+        .contact-item .emoji {
+            font-size: 1.2rem;
+        }
+        .contact-item .label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.3;
+        }
+        .contact-item .value {
+            font-weight: 300;
+            font-size: 0.85rem;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px 25px;
+        }
+        .contact-form h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            color: #f0ece4;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: rgba(212, 163, 115, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(240, 236, 228, 0.2);
+        }
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .contact-form button {
+            background: transparent;
+            border: 1px solid rgba(212, 163, 115, 0.3);
+            color: #f0ece4;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.4s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .contact-form button:hover {
+            background: #d4a373;
+            border-color: #d4a373;
+            color: #0a0a0f;
+        }
+
+        /* ================================================================
+                   FOOTER
+                   ================================================================ */
+        .footer-section {
+            position: relative;
+            z-index: 10;
+            margin-top: 30px;
+            padding: 30px 20px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #f0ece4;
+            margin-bottom: 4px;
+        }
+        .footer-brand h3 span {
+            color: #d4a373;
+        }
+        .footer-brand p {
+            font-size: 0.6rem;
+            opacity: 0.3;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px 25px;
+        }
+        .footer-links a {
+            color: rgba(240, 236, 228, 0.3);
+            text-decoration: none;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            cursor: none;
+        }
+        .footer-links a:hover {
+            color: #d4a373;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .footer-social a {
+            color: rgba(240, 236, 228, 0.2);
+            text-decoration: none;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: none;
+        }
+        .footer-social a:hover {
+            color: #d4a373;
+        }
+
+        .footer-bottom {
+            grid-column: 1 / -1;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 0.45rem;
+            opacity: 0.2;
+            letter-spacing: 1px;
+        }
+        .footer-bottom .developer {
+            color: rgba(212, 163, 115, 0.4);
+        }
+
+        /* ================================================================
+                   HIRE ME - FLOATING BUTTON
+                   ================================================================ */
+        .hire-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 25px;
+            z-index: 50;
+            background: linear-gradient(135deg, #d4a373, #b8834f);
+            color: #0a0a0f;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 8px 30px rgba(212, 163, 115, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hire-btn:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 12px 40px rgba(212, 163, 115, 0.5);
+            background: linear-gradient(135deg, #e8b88a, #c9955e);
+        }
+        .hire-btn:active {
+            transform: scale(0.96);
+        }
+        .hire-btn .icon {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        /* ================================================================
+                   SCROLL INDICATOR
+                   ================================================================ */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.4;
+            transition: opacity 0.6s ease;
+            animation: floatUpDown 2.5s ease-in-out infinite;
+        }
+        .scroll-indicator.fade-out {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-12px); }
+        }
+
+        .mouse-icon {
+            width: 28px;
+            height: 44px;
+            position: relative;
+        }
+        .mouse-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #d4a373;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .scroll-wheel {
+            animation: scrollWheel 2s ease-in-out infinite;
+            transform-origin: center;
+        }
+        @keyframes scrollWheel {
+            0% { transform: translateY(0); opacity: 1; }
+            30% { transform: translateY(12px); opacity: 0.3; }
+            60% { transform: translateY(12px); opacity: 0.3; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .scroll-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            margin-top: 2px;
+        }
+        .scroll-arrow span {
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-right: 1.5px solid rgba(212, 163, 115, 0.5);
+            border-bottom: 1.5px solid rgba(212, 163, 115, 0.5);
+            transform: rotate(45deg);
+            animation: arrowBounce 2s ease-in-out infinite;
+        }
+        .scroll-arrow span:nth-child(2) { animation-delay: 0.15s; opacity: 0.6; }
+        .scroll-arrow span:nth-child(3) { animation-delay: 0.3s; opacity: 0.3; }
+        @keyframes arrowBounce {
+            0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; }
+            50% { transform: rotate(45deg) translate(4px, 4px); opacity: 1; }
+        }
+
+        .scroll-text {
+            font-size: 0.5rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(240, 236, 228, 0.3);
+            margin-top: 2px;
+            font-weight: 300;
+        }
+
+        /* ================================================================
+                   RESPONSIVE
+                   ================================================================ */
+
+        @media (width >= 40rem) {
+            header { padding: 25px 35px 18px; }
+            .logo h1 { font-size: 2rem; }
+            nav { gap: 25px; }
+            nav a { font-size: 0.7rem; }
+            .page { padding: 30px 35px 0; }
+            .intro h2 { font-size: 2rem; }
+            
+            .grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 20px; 
+            }
+            .project-card.wide { 
+                grid-column: span 1; 
+                aspect-ratio: 4 / 3;
+            }
+            
+            .about-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-wrapper { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .footer-section { padding: 35px 35px 30px; grid-template-columns: 1fr 1fr; }
+            .footer-bottom { grid-column: 1 / -1; }
+            .hire-btn { bottom: 90px; right: 35px; padding: 16px 32px; font-size: 0.75rem; }
+            .scroll-indicator { bottom: 170px; }
+            .mouse-icon { width: 32px; height: 50px; }
+            .scroll-text { font-size: 0.55rem; }
+            
+            /* ===== TAGLINE VISIBLE ON TABLET+ ===== */
+            .logo .tagline {
+                display: block;
+            }
+        }
+
+        @media (width >= 64rem) {
+            header { padding: 30px 60px 22px; }
+            .logo h1 { font-size: 2.4rem; }
+            .logo .tagline { font-size: 0.6rem; letter-spacing: 4px; }
+            nav { gap: 35px; }
+            nav a { font-size: 0.75rem; }
+            .page { padding: 40px 60px 0; }
+            .intro h2 { font-size: 2.4rem; max-width: 700px; }
+            .intro p { font-size: 1rem; max-width: 550px; }
+            
+            .grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 25px; 
+            }
+            .project-card.wide { 
+                grid-column: span 1; 
+                aspect-ratio: 4 / 3;
+            }
+            
+            .card-content h3 { font-size: 1.3rem; }
+            .about-text h2 { font-size: 2.2rem; }
+            .services-grid { grid-template-columns: repeat(3, 1fr); gap: 25px; }
+            .contact-wrapper { gap: 50px; }
+            .footer-section { padding: 40px 60px 35px; grid-template-columns: 1fr 1fr 1fr; }
+            .footer-brand h3 { font-size: 1.4rem; }
+            .footer-links a { font-size: 0.6rem; }
+            .hire-btn { bottom: 100px; right: 60px; padding: 18px 38px; font-size: 0.8rem; }
+            .scroll-indicator { bottom: 180px; }
+            .mouse-icon { width: 36px; height: 56px; }
+        }
+
+        @media (width >= 80rem) {
+            header { padding: 35px 80px 25px; }
+            .logo h1 { font-size: 2.8rem; }
+            .page { padding: 50px 80px 0; }
+            .intro h2 { font-size: 2.8rem; }
+            
+            .grid { gap: 30px; }
+            .project-card { border-radius: 18px; }
+            .card-content { padding: 40px 30px 28px; }
+            .card-content h3 { font-size: 1.5rem; }
+            
+            .about-text h2 { font-size: 2.5rem; }
+            .about-text p { font-size: 1rem; }
+            .service-card { padding: 40px 35px; }
+            .service-card h3 { font-size: 1.4rem; }
+            .contact-info h2 { font-size: 2.5rem; }
+            .footer-section { padding: 45px 80px 40px; }
+            .footer-brand h3 { font-size: 1.6rem; }
+            .footer-links a { font-size: 0.65rem; }
+            .hire-btn { bottom: 110px; right: 80px; padding: 20px 42px; font-size: 0.85rem; }
+            .scroll-indicator { bottom: 190px; }
+        }
+
+        /* ================================================================
+                   MOBILE: TAGLINE HIDDEN, DEVELOPER CREDIT ONLY IN FOOTER
+                   ================================================================ */
+        @media (width < 40rem) {
+            /* ===== HIDE TAGLINE ON MOBILE ===== */
+            .logo .tagline {
+                display: none;
+            }
+            
+            .grid { gap: 12px; }
+            .project-card { border-radius: 10px; }
+            .card-content { padding: 18px 14px 14px; }
+            .card-content h3 { font-size: 0.95rem; }
+            .logo h1 { font-size: 1.3rem; }
+            nav a { font-size: 0.5rem; letter-spacing: 1px; }
+            .intro h2 { font-size: 1.3rem; }
+            .about-text h2 { font-size: 1.4rem; }
+            .services-grid { gap: 14px; }
+            .service-card { padding: 20px 18px; }
+            .service-card h3 { font-size: 1rem; }
+            .contact-form { padding: 20px 18px; }
+            .contact-item { padding: 10px 14px; }
+            .footer-section { padding: 25px 15px 20px; gap: 15px; }
+            .footer-brand h3 { font-size: 1rem; }
+            .footer-links { gap: 10px 18px; }
+            .footer-links a { font-size: 0.45rem; }
+            .footer-social a { font-size: 0.5rem; }
+            .footer-bottom { font-size: 0.4rem; flex-direction: column; text-align: center; }
+            .hire-btn { bottom: 70px; right: 15px; padding: 12px 20px; font-size: 0.6rem; gap: 6px; }
+            .hire-btn .icon { font-size: 0.9rem; }
+            .scroll-indicator { bottom: 140px; }
+            .mouse-icon { width: 24px; height: 38px; }
+            .scroll-text { font-size: 0.4rem; letter-spacing: 3px; }
+            .scroll-arrow span { width: 6px; height: 6px; }
+        }
+
+        /* ===== TOUCH DEVICES ===== */
+        @media (hover: none) and (pointer: coarse) {
+            #cursor, #cursor-dot { display: none; }
+            body { cursor: default; }
+            .project-card { cursor: pointer; }
+            .card-content { transform: translateY(0); opacity: 1; padding-bottom: 20px; }
+            .project-card .brush-overlay { opacity: 0.15; }
+            .contact-form button { cursor: pointer; }
+            nav a { cursor: pointer; }
+            .logo h1 { cursor: pointer; }
+            .footer-links a { cursor: pointer; }
+            .footer-social a { cursor: pointer; }
+            .hire-btn { cursor: pointer; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== CUSTOM CURSOR ===== -->
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+
+    <!-- ===== PARTICLES CANVAS ===== -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ===== SCROLL INDICATOR ===== -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="mouse-icon">
+            <svg viewBox="0 0 28 44" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="24" height="38" rx="12" stroke="#d4a373" stroke-width="2" fill="none"/>
+                <rect x="11" y="10" width="6" height="10" rx="3" class="scroll-wheel" fill="#d4a373" opacity="0.6"/>
+            </svg>
+        </div>
+        <div class="scroll-arrow">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="scroll-text">Scroll to explore</div>
+    </div>
+
+    <!-- ===== HIRE ME - FLOATING BUTTON ===== -->
+    <a href="mailto:hello@tirthadas.design" class="hire-btn" id="hireBtn">
+        <span class="icon">✦</span>
+        Hire Me
+    </a>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="logo" onclick="navigateTo('home')">
+            <h1>Tirtha <span>Das</span></h1>
+            <div class="tagline">✦ Visual Identity &amp; Brand Design</div>
+        </div>
+        <nav>
+            <a href="#" class="active" data-page="home">Work</a>
+            <a href="#" data-page="about">About</a>
+            <a href="#" data-page="services">Services</a>
+            <a href="#" data-page="contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- ===== PAGE CONTAINER ===== -->
+    <div class="page-container">
+
+        <!-- ===== HOME PAGE ===== -->
+        <div class="page active" id="page-home">
+            <section class="intro">
+                <div class="badge">✦ Featured Designer</div>
+                <h2>Where identity meets <em>alchemy</em> —<br>crafting visual stories.</h2>
+                <p>Selected works across branding, editorial design, and digital experiences.</p>
+            </section>
+
+            <div class="grid">
+                <!-- Card 1 -->
+                <div class="project-card" 
+                     data-title="NOVA Brand Identity" 
+                     data-category="Branding" 
+                     data-desc="Complete brand ecosystem for a futuristic tech startup." 
+                     data-img="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&h=600&fit=crop">
+                    <div class="project-card-inner">
+                        <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&h=600&fit=crop" alt="NOVA">
+                        <div class="brush-overlay"></div>
+                        <div class="glow-ring"></div>
+                        <div class="card-content">
+                            <span class="category">Branding</span>
+                            <h3>NOVA</h3>
+                            <span class="view-hint">View Project →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="project-card" 
+                     data-title="Kinfolk Editorial" 
+                     data-category="Editorial" 
+                     data-desc="Art direction and layout for a limited-edition lifestyle magazine." 
+                     data-img="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&h=600&fit=crop">
+                    <div class="project-card-inner">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&h=600&fit=crop" alt="Kinfolk">
+                        <div class="brush-overlay"></div>
+                        <div class="glow-ring"></div>
+                        <div class="card-content">
+                            <span class="category">Editorial</span>
+                            <h3>Kinfolk</h3>
+                            <span class="view-hint">View Project →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="project-card" 
+                     data-title="Bloom Packaging" 
+                     data-category="Packaging" 
+                     data-desc="Sustainable packaging design for a luxury organic skincare line." 
+                     data-img="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&h=600&fit=crop">
+                    <div class="project-card-inner">
+                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&h=600&fit=crop" alt="Bloom">
+                        <div class="brush-overlay"></div>
+                        <div class="glow-ring"></div>
+                        <div class="card-content">
+                            <span class="category">Packaging</span>
+                            <h3>Bloom</h3>
+                            <span class="view-hint">View Project →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="project-card" 
+                     data-title="Muse Poster Series" 
+                     data-category="Typography" 
+                     data-desc="Experimental typographic posters exploring language and rhythm." 
+                     data-img="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=800&h=600&fit=crop">
+                    <div class="project-card-inner">
+                        <img src="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=800&h=600&fit=crop" alt="Muse">
+                        <div class="brush-overlay"></div>
+                        <div class="glow-ring"></div>
+                        <div class="card-content">
+                            <span class="category">Typography</span>
+                            <h3>Muse Series</h3>
+                            <span class="view-hint">View Project →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="project-card" 
+                     data-title="Solstice Digital" 
+                     data-category="UI/UX" 
+                     data-desc="Minimalist web experience for a wellness retreat." 
+                     data-img="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&h=600&fit=crop">
+                    <div class="project-card-inner">
+                        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&h=600&fit=crop" alt="Solstice">
+                        <div class="brush-overlay"></div>
+                        <div class="glow-ring"></div>
+                        <div class="card-content">
+                            <span class="category">UI/UX</span>
+                            <h3>Solstice</h3>
+                            <span class="view-hint">View Project →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="project-card" 
+                     data-title="Ode to Color" 
+                     data-category="Art Direction" 
+                     data-desc="Personal exploration of color theory through abstract photography." 
+                     data-img="https://images.unsplash.com/photo-1563089145-599997674d42?w=800&h=600&fit=crop">
+                    <div class="project-card-inner">
+                        <img src="https://images.unsplash.com/photo-1563089145-599997674d42?w=800&h=600&fit=crop" alt="Ode to Color">
+                        <div class="brush-overlay"></div>
+                        <div class="glow-ring"></div>
+                        <div class="card-content">
+                            <span class="category">Art Direction</span>
+                            <h3>Ode to Color</h3>
+                            <span class="view-hint">View Project →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="project-card" 
+                     data-title="Heritage Brand Book" 
+                     data-category="Branding" 
+                     data-desc="A 120-page brand book for a heritage luxury brand." 
+                     data-img="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop">
+                    <div class="project-card-inner">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop" alt="Heritage">
+                        <div class="brush-overlay"></div>
+                        <div class="glow-ring"></div>
+                        <div class="card-content">
+                            <span class="category">Branding</span>
+                            <h3>Heritage Book</h3>
+                            <span class="view-hint">View Project →</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== HOME FOOTER ===== -->
+            <footer class="footer-section">
+                <div class="footer-brand">
+                    <h3>Tirtha <span>Das</span></h3>
+                    <p>✦ Visual Identity &amp; Brand Design</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" onclick="navigateTo('home')">Work</a>
+                    <a href="#" onclick="navigateTo('about')">About</a>
+                    <a href="#" onclick="navigateTo('services')">Services</a>
+                    <a href="#" onclick="navigateTo('contact')">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#">Instagram</a>
+                    <a href="#">Behance</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Dribbble</a>
+                </div>
+                <div class="footer-bottom">
+                    <span>© 2026 Tirtha Das — All rights reserved</span>
+                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                </div>
+            </footer>
+        </div>
+
+        <!-- ===== ABOUT PAGE ===== -->
+        <div class="page" id="page-about">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&crop=face" alt="Tirtha Das">
+                </div>
+                <div class="about-text">
+                    <h2>About <span>Tirtha</span></h2>
+                    <p>I'm a <span class="highlight">Visual Identity & Brand Designer</span> with a passion for creating meaningful design that lives between art and strategy.</p>
+                    <p>With over 5 years of experience working with startups, luxury brands, and cultural institutions, I believe that great design tells a story and creates emotional connections.</p>
+                    <p>My approach is <span class="highlight">research-driven</span> and <span class="highlight">collaborative</span> — every project begins with understanding the unique essence of the brand.</p>
+                    <div class="skills">
+                        <span>Brand Strategy</span>
+                        <span>Visual Identity</span>
+                        <span>Editorial Design</span>
+                        <span>Packaging</span>
+                        <span>Typography</span>
+                        <span>Art Direction</span>
+                        <span>UI/UX</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ABOUT FOOTER ===== -->
+            <footer class="footer-section">
+                <div class="footer-brand">
+                    <h3>Tirtha <span>Das</span></h3>
+                    <p>✦ Designer &amp; Creative Thinker</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" onclick="navigateTo('home')">Work</a>
+                    <a href="#" onclick="navigateTo('about')">About</a>
+                    <a href="#" onclick="navigateTo('services')">Services</a>
+                    <a href="#" onclick="navigateTo('contact')">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#">Instagram</a>
+                    <a href="#">Behance</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Dribbble</a>
+                </div>
+                <div class="footer-bottom">
+                    <span>© 2026 Tirtha Das — All rights reserved</span>
+                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                </div>
+            </footer>
+        </div>
+
+        <!-- ===== SERVICES PAGE ===== -->
+        <div class="page" id="page-services">
+            <div class="intro" style="padding-bottom: 0;">
+                <h2 style="font-size: 1.6rem;">What I <em>do</em></h2>
+                <p>Design services tailored to bring your brand to life.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="icon">✦</span>
+                    <h3>Brand Identity</h3>
+                    <p>Complete brand systems including logos, color palettes, typography, and brand guidelines.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">◈</span>
+                    <h3>Editorial Design</h3>
+                    <p>Magazines, books, catalogues, and publications with a focus on typography and layout.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">▣</span>
+                    <h3>Packaging Design</h3>
+                    <p>Sustainable, premium packaging solutions that stand out on shelf and create unforgettable experiences.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">◇</span>
+                    <h3>Art Direction</h3>
+                    <p>Creative direction for photoshoots, campaigns, and visual content that aligns with your brand.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">◆</span>
+                    <h3>Typography</h3>
+                    <p>Custom typography, lettering, and type systems that add personality to your brand.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">◉</span>
+                    <h3>Digital Design</h3>
+                    <p>Websites, UI/UX, and digital experiences that are beautiful, functional, and user-centered.</p>
+                </div>
+            </div>
+
+            <!-- ===== SERVICES FOOTER ===== -->
+            <footer class="footer-section">
+                <div class="footer-brand">
+                    <h3>Tirtha <span>Das</span></h3>
+                    <p>✦ Design Services</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" onclick="navigateTo('home')">Work</a>
+                    <a href="#" onclick="navigateTo('about')">About</a>
+                    <a href="#" onclick="navigateTo('services')">Services</a>
+                    <a href="#" onclick="navigateTo('contact')">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#">Instagram</a>
+                    <a href="#">Behance</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Dribbble</a>
+                </div>
+                <div class="footer-bottom">
+                    <span>© 2026 Tirtha Das — All rights reserved</span>
+                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                </div>
+            </footer>
+        </div>
+
+        <!-- ===== CONTACT PAGE ===== -->
+        <div class="page" id="page-contact">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h2>Let's <span>connect</span></h2>
+                    <p>Have a project in mind or just want to say hello? I'd love to hear from you.</p>
+                    
+                    <div class="contact-item">
+                        <span class="emoji">✉</span>
+                        <div>
+                            <div class="label">Email</div>
+                            <div class="value">hello@tirthadas.design</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="emoji">📍</span>
+                        <div>
+                            <div class="label">Location</div>
+                            <div class="value">Dhaka, Bangladesh</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="emoji">📱</span>
+                        <div>
+                            <div class="label">Phone</div>
+                            <div class="value">+880 1234 567890</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="emoji">🌐</span>
+                        <div>
+                            <div class="label">Social</div>
+                            <div class="value">Instagram · Behance · LinkedIn</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h3>Send a message</h3>
+                    <form id="contactForm" onsubmit="return handleSubmit(event)">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <input type="text" placeholder="Subject">
+                        <textarea placeholder="Tell me about your project..." required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== CONTACT FOOTER ===== -->
+            <footer class="footer-section">
+                <div class="footer-brand">
+                    <h3>Tirtha <span>Das</span></h3>
+                    <p>✦ Let's work together</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" onclick="navigateTo('home')">Work</a>
+                    <a href="#" onclick="navigateTo('about')">About</a>
+                    <a href="#" onclick="navigateTo('services')">Services</a>
+                    <a href="#" onclick="navigateTo('contact')">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#">Instagram</a>
+                    <a href="#">Behance</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Dribbble</a>
+                </div>
+                <div class="footer-bottom">
+                    <span>© 2026 Tirtha Das — All rights reserved</span>
+                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal" id="projectModal" style="display:none; position:fixed; inset:0; z-index:999; background:rgba(10,10,15,0.97); backdrop-filter:blur(20px); justify-content:center; align-items:center; padding:15px; animation:modalFade 0.5s ease;">
+        <div style="display:flex; flex-direction:column; max-width:100%; width:100%; max-height:92vh; background:rgba(20,20,28,0.9); border-radius:16px; overflow:hidden; border:1px solid rgba(212,163,115,0.1); position:relative;">
+            <img id="modalImg" src="" alt="" style="width:100%; height:200px; object-fit:cover; min-height:auto;">
+            <div style="width:100%; padding:22px 20px; display:flex; flex-direction:column; justify-content:center;">
+                <span id="modalCategory" style="color:#d4a373; letter-spacing:3px; text-transform:uppercase; font-size:0.5rem; font-weight:400; margin-bottom:8px;">Category</span>
+                <h2 id="modalTitle" style="font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:400; color:#f0ece4; margin-bottom:10px;">Title</h2>
+                <p id="modalDesc" style="font-weight:300; line-height:1.7; opacity:0.6; margin-bottom:25px; font-size:0.85rem;">Description</p>
+                <button id="closeModal" style="align-self:flex-start; background:transparent; border:1px solid rgba(212,163,115,0.2); color:#f0ece4; padding:10px 30px; border-radius:50px; font-size:0.55rem; letter-spacing:3px; text-transform:uppercase; cursor:pointer; transition:all 0.4s ease; font-family:'Inter',sans-serif;">✕ Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 1. PAGE NAVIGATION
+        // ============================================================
+        const navLinks = document.querySelectorAll('nav a');
+        const pages = {
+            home: document.getElementById('page-home'),
+            about: document.getElementById('page-about'),
+            services: document.getElementById('page-services'),
+            contact: document.getElementById('page-contact')
+        };
+
+        function navigateTo(page) {
+            Object.keys(pages).forEach(key => {
+                pages[key].classList.remove('active');
+            });
+            
+            if (pages[page]) {
+                pages[page].classList.add('active');
+            }
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === page) {
+                    link.classList.add('active');
+                }
+            });
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.dataset.page;
+                navigateTo(page);
+            });
+        });
+
+        // ============================================================
+        // 2. SCROLL INDICATOR
+        // ============================================================
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrollIndicator.classList.add('fade-out');
+            } else {
+                scrollIndicator.classList.remove('fade-out');
+            }
+        });
+
+        // ============================================================
+        // 3. CUSTOM CURSOR
+        // ============================================================
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+            });
+
+            document.querySelectorAll('.project-card, .service-card, .contact-item, .contact-form button, nav a, .logo h1, .footer-section a, .hire-btn').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.width = '55px';
+                    cursor.style.height = '55px';
+                    cursor.style.borderColor = '#d4a373';
+                    cursor.style.background = 'rgba(212, 163, 115, 0.05)';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.width = '30px';
+                    cursor.style.height = '30px';
+                    cursor.style.borderColor = '#d4a373';
+                    cursor.style.background = 'transparent';
+                });
+            });
+        } else {
+            cursor.style.display = 'none';
+            cursorDot.style.display = 'none';
+        }
+
+        // ============================================================
+        // 4. PARTICLES BACKGROUND
+        // ============================================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+
+        function resizeParticles() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeParticles);
+        resizeParticles();
+
+        const particles = [];
+        const PARTICLE_COUNT = Math.min(70, Math.floor((w * h) / 18000));
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                r: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.4 + 0.1,
+                hue: 30 + Math.random() * 20
+            });
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, w, h);
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > w) p.vx *= -1;
+                if (p.y < 0 || p.y > h) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${p.hue}, 70%, 70%, ${p.opacity})`;
+                ctx.fill();
+
+                ctx.shadowColor = `hsla(${p.hue}, 70%, 70%, 0.1)`;
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(212, 163, 115, ${0.04 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // ============================================================
+        // 5. 3D TILT EFFECT
+        // ============================================================
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+                    const rotateX = y * 12;
+                    const rotateY = x * 12;
+
+                    const inner = card.querySelector('.project-card-inner');
+                    if (inner) {
+                        inner.style.transform = `perspective(800px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+                    }
+
+                    const brush = card.querySelector('.brush-overlay');
+                    if (brush) {
+                        const px = ((e.clientX - rect.left) / rect.width) * 100;
+                        const py = ((e.clientY - rect.top) / rect.height) * 100;
+                        brush.style.setProperty('--mouse-x', px + '%');
+                        brush.style.setProperty('--mouse-y', py + '%');
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    const inner = card.querySelector('.project-card-inner');
+                    if (inner) {
+                        inner.style.transform = 'perspective(800px) rotateX(0) rotateY(0)';
+                    }
+                });
+            });
+        }
+
+        // ============================================================
+        // 6. MODAL LOGIC
+        // ============================================================
+        const modal = document.getElementById('projectModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalDesc = document.getElementById('modalDesc');
+        const closeModal = document.getElementById('closeModal');
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', function() {
+                modalImg.src = this.dataset.img;
+                modalTitle.textContent = this.dataset.title;
+                modalCategory.textContent = this.dataset.category;
+                modalDesc.textContent = this.dataset.desc;
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModalFunc() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModal.addEventListener('click', closeModalFunc);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModalFunc();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'flex') closeModalFunc();
+        });
+
+        // ============================================================
+        // 7. CONTACT FORM
+        // ============================================================
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('✨ Thank you! Your message has been sent. I\'ll get back to you soon.');
+            document.getElementById('contactForm').reset();
+            return false;
+        }
+
+        console.log('✨ Tirtha Das — Fixed: Tagline hidden on mobile, Developer credit only in footer');
+        console.log('✨ Developed with ♥ by Aung Ching');
+    </script>
+</body>
+</html>
