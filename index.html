@@ -215,7 +215,9 @@
             max-width: 100%;
         }
 
-        /* ===== PORTFOLIO GRID ===== */
+        /* ================================================================
+                   PORTFOLIO GRID - PREVIOUS DESIGN (WIDE + TALL)
+                   ================================================================ */
         .grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -236,9 +238,16 @@
             perspective: 800px;
         }
 
+        /* ===== WIDE CARDS - 2 COLUMN SPAN (Desktop) ===== */
         .project-card.wide {
             grid-column: span 1;
             aspect-ratio: 4 / 3;
+        }
+
+        /* ===== TALL CARDS - TALLER ASPECT RATIO ===== */
+        .project-card.tall {
+            grid-row: span 1;
+            aspect-ratio: 3 / 4;
         }
 
         .project-card-inner {
@@ -618,18 +627,34 @@
 
         .footer-bottom {
             grid-column: 1 / -1;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 18px;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 8px;
-            font-size: 0.45rem;
-            opacity: 0.2;
-            letter-spacing: 1px;
+            gap: 10px;
+            font-size: 0.55rem;
+            letter-spacing: 1.5px;
+            opacity: 0.5;
         }
         .footer-bottom .developer {
-            color: rgba(212, 163, 115, 0.4);
+            color: #d4a373;
+            font-weight: 400;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+        .footer-bottom .developer:hover {
+            color: #f0ece4;
+            text-decoration: underline;
+        }
+        .footer-bottom .heart {
+            color: #d4a373;
+            display: inline-block;
+            animation: heartBeat 2s ease-in-out infinite;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         /* ================================================================
@@ -767,12 +792,26 @@
             .page { padding: 30px 35px 0; }
             .intro h2 { font-size: 2rem; }
             
+            /* ===== 2 COLUMN GRID WITH WIDE + TALL ===== */
             .grid { 
                 grid-template-columns: repeat(2, 1fr); 
                 gap: 20px; 
             }
+            
+            /* Wide cards span 2 columns */
             .project-card.wide { 
-                grid-column: span 1; 
+                grid-column: span 2; 
+                aspect-ratio: 4 / 3;
+            }
+            
+            /* Tall cards - taller aspect ratio */
+            .project-card.tall { 
+                grid-row: span 2; 
+                aspect-ratio: 3 / 4;
+            }
+            
+            /* Normal cards - default */
+            .project-card:not(.wide):not(.tall) {
                 aspect-ratio: 4 / 3;
             }
             
@@ -786,7 +825,6 @@
             .mouse-icon { width: 32px; height: 50px; }
             .scroll-text { font-size: 0.55rem; }
             
-            /* ===== TAGLINE VISIBLE ON TABLET+ ===== */
             .logo .tagline {
                 display: block;
             }
@@ -802,12 +840,26 @@
             .intro h2 { font-size: 2.4rem; max-width: 700px; }
             .intro p { font-size: 1rem; max-width: 550px; }
             
+            /* ===== 3 COLUMN GRID WITH WIDE + TALL ===== */
             .grid { 
                 grid-template-columns: repeat(3, 1fr); 
                 gap: 25px; 
             }
+            
+            /* Wide cards span 2 columns */
             .project-card.wide { 
-                grid-column: span 1; 
+                grid-column: span 2; 
+                aspect-ratio: 4 / 3;
+            }
+            
+            /* Tall cards - taller aspect ratio */
+            .project-card.tall { 
+                grid-row: span 2; 
+                aspect-ratio: 3 / 4;
+            }
+            
+            /* Normal cards - default */
+            .project-card:not(.wide):not(.tall) {
                 aspect-ratio: 4 / 3;
             }
             
@@ -847,16 +899,30 @@
         }
 
         /* ================================================================
-                   MOBILE: TAGLINE HIDDEN, DEVELOPER CREDIT ONLY IN FOOTER
+                   MOBILE: TAGLINE HIDDEN
                    ================================================================ */
         @media (width < 40rem) {
-            /* ===== HIDE TAGLINE ON MOBILE ===== */
             .logo .tagline {
                 display: none;
             }
             
+            /* ===== MOBILE: ALL CARDS SAME SIZE ===== */
             .grid { gap: 12px; }
-            .project-card { border-radius: 10px; }
+            .project-card { 
+                border-radius: 10px; 
+                aspect-ratio: 4 / 3 !important;
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
+            }
+            .project-card.wide { 
+                aspect-ratio: 4 / 3 !important;
+                grid-column: span 1 !important;
+            }
+            .project-card.tall { 
+                aspect-ratio: 4 / 3 !important;
+                grid-row: span 1 !important;
+            }
+            
             .card-content { padding: 18px 14px 14px; }
             .card-content h3 { font-size: 0.95rem; }
             .logo h1 { font-size: 1.3rem; }
@@ -873,7 +939,12 @@
             .footer-links { gap: 10px 18px; }
             .footer-links a { font-size: 0.45rem; }
             .footer-social a { font-size: 0.5rem; }
-            .footer-bottom { font-size: 0.4rem; flex-direction: column; text-align: center; }
+            .footer-bottom { 
+                font-size: 0.4rem; 
+                flex-direction: column; 
+                text-align: center;
+                opacity: 0.5;
+            }
             .hire-btn { bottom: 70px; right: 15px; padding: 12px 20px; font-size: 0.6rem; gap: 6px; }
             .hire-btn .icon { font-size: 0.9rem; }
             .scroll-indicator { bottom: 140px; }
@@ -955,7 +1026,7 @@
             </section>
 
             <div class="grid">
-                <!-- Card 1 -->
+                <!-- Card 1 - Normal -->
                 <div class="project-card" 
                      data-title="NOVA Brand Identity" 
                      data-category="Branding" 
@@ -973,7 +1044,7 @@
                     </div>
                 </div>
 
-                <!-- Card 2 -->
+                <!-- Card 2 - Normal -->
                 <div class="project-card" 
                      data-title="Kinfolk Editorial" 
                      data-category="Editorial" 
@@ -991,14 +1062,14 @@
                     </div>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="project-card" 
+                <!-- Card 3 - WIDE (takes full width) -->
+                <div class="project-card wide" 
                      data-title="Bloom Packaging" 
                      data-category="Packaging" 
                      data-desc="Sustainable packaging design for a luxury organic skincare line." 
-                     data-img="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&h=600&fit=crop">
+                     data-img="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=1200&h=600&fit=crop">
                     <div class="project-card-inner">
-                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&h=600&fit=crop" alt="Bloom">
+                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=1200&h=600&fit=crop" alt="Bloom">
                         <div class="brush-overlay"></div>
                         <div class="glow-ring"></div>
                         <div class="card-content">
@@ -1009,14 +1080,14 @@
                     </div>
                 </div>
 
-                <!-- Card 4 -->
-                <div class="project-card" 
+                <!-- Card 4 - TALL (taller aspect ratio) -->
+                <div class="project-card tall" 
                      data-title="Muse Poster Series" 
                      data-category="Typography" 
                      data-desc="Experimental typographic posters exploring language and rhythm." 
-                     data-img="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=800&h=600&fit=crop">
+                     data-img="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=600&h=800&fit=crop">
                     <div class="project-card-inner">
-                        <img src="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=800&h=600&fit=crop" alt="Muse">
+                        <img src="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=600&h=800&fit=crop" alt="Muse">
                         <div class="brush-overlay"></div>
                         <div class="glow-ring"></div>
                         <div class="card-content">
@@ -1027,7 +1098,7 @@
                     </div>
                 </div>
 
-                <!-- Card 5 -->
+                <!-- Card 5 - Normal -->
                 <div class="project-card" 
                      data-title="Solstice Digital" 
                      data-category="UI/UX" 
@@ -1045,7 +1116,7 @@
                     </div>
                 </div>
 
-                <!-- Card 6 -->
+                <!-- Card 6 - Normal -->
                 <div class="project-card" 
                      data-title="Ode to Color" 
                      data-category="Art Direction" 
@@ -1063,14 +1134,14 @@
                     </div>
                 </div>
 
-                <!-- Card 7 -->
-                <div class="project-card" 
+                <!-- Card 7 - WIDE (takes full width) -->
+                <div class="project-card wide" 
                      data-title="Heritage Brand Book" 
                      data-category="Branding" 
                      data-desc="A 120-page brand book for a heritage luxury brand." 
-                     data-img="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop">
+                     data-img="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop">
                     <div class="project-card-inner">
-                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop" alt="Heritage">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop" alt="Heritage">
                         <div class="brush-overlay"></div>
                         <div class="glow-ring"></div>
                         <div class="card-content">
@@ -1102,7 +1173,10 @@
                 </div>
                 <div class="footer-bottom">
                     <span>© 2026 Tirtha Das — All rights reserved</span>
-                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                    <span>
+                        Crafted with <span class="heart">♥</span> by 
+                        <a href="mailto:aungching.dev@gmail.com" class="developer" style="text-decoration:none;">Aung Ching</a>
+                    </span>
                 </div>
             </footer>
         </div>
@@ -1150,7 +1224,10 @@
                 </div>
                 <div class="footer-bottom">
                     <span>© 2026 Tirtha Das — All rights reserved</span>
-                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                    <span>
+                        Crafted with <span class="heart">♥</span> by 
+                        <a href="mailto:aungching.dev@gmail.com" class="developer" style="text-decoration:none;">Aung Ching</a>
+                    </span>
                 </div>
             </footer>
         </div>
@@ -1214,7 +1291,10 @@
                 </div>
                 <div class="footer-bottom">
                     <span>© 2026 Tirtha Das — All rights reserved</span>
-                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                    <span>
+                        Crafted with <span class="heart">♥</span> by 
+                        <a href="mailto:aungching.dev@gmail.com" class="developer" style="text-decoration:none;">Aung Ching</a>
+                    </span>
                 </div>
             </footer>
         </div>
@@ -1288,7 +1368,10 @@
                 </div>
                 <div class="footer-bottom">
                     <span>© 2026 Tirtha Das — All rights reserved</span>
-                    <span>Design &amp; Development by <span class="developer">Aung Ching</span></span>
+                    <span>
+                        Crafted with <span class="heart">♥</span> by 
+                        <a href="mailto:aungching.dev@gmail.com" class="developer" style="text-decoration:none;">Aung Ching</a>
+                    </span>
                 </div>
             </footer>
         </div>
@@ -1543,8 +1626,8 @@
             return false;
         }
 
-        console.log('✨ Tirtha Das — Fixed: Tagline hidden on mobile, Developer credit only in footer');
-        console.log('✨ Developed with ♥ by Aung Ching');
+        console.log('✨ Tirtha Das — Previous Image Design (Wide + Tall) Restored!');
+        console.log('✨ Crafted with ♥ by Aung Ching');
     </script>
 </body>
 </html>
